@@ -1,20 +1,24 @@
 <html>
-<link rel="stylesheet" href="./popup.css">
+<head>
+    <link rel="stylesheet" href="./popup.css">
+</head>
 
 <body>
-    <div class="display" id="text-display"></div>
-    <div class="buttons">
-        <button class="btn icon-button buttons__button button-previous" id="video-previous">
-            <img src="./icons/backward-red-icon.svg" alt="Previous" class="button__image">
-        </button>
-        <div class="buttons__divider"></div>
-        <button class="btn icon-button buttons__button button-next" id="video-next">
-            <img src="./icons/fast-forward-red-icon.svg" alt="Next" class="button__image">
-        </button>
-    </div>
-    <div class="type">
-        <div class="type__type">Type: </div>
-        <div class="btn type__value" id="video-type"></div>
+    <div class="content">
+        <div class="display" id="text-display"></div>
+        <div class="buttons">
+            <button class="btn icon-button buttons__button button-previous" id="video-previous">
+                <img src="./icons/backward-red-icon.svg" alt="Previous" class="button__image">
+            </button>
+            <div class="buttons__divider"></div>
+            <button class="btn icon-button buttons__button button-next" id="video-next">
+                <img src="./icons/fast-forward-red-icon.svg" alt="Next" class="button__image">
+            </button>
+        </div>
+        <div class="type">
+            <div class="type__type">Type: </div>
+            <div class="btn type__value" id="video-type"></div>
+        </div>
     </div>
     <script src="./popup.js" type="text/javascript" defer></script>
 </body>

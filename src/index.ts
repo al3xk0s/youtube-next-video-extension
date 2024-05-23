@@ -14,19 +14,29 @@ type Args = {
     filter?: FilterString;
 }
 
-export const execute = ({ mode, filter = 'long' }: Args) => {
+const wrapFromErrorHandler = <F extends (...args: Parameters<F>) => ReturnType<F>>(exec: F) => {
+    return async (...args: Parameters<F>) : Promise<Awaited<ReturnType<F>> | undefined> => {
+        try {
+            return (await exec(...args) as Awaited<ReturnType<F>>);                    
+        } catch(e) {
+            $display.error((e as Error).message);
+        }
+    }
+}
+
+export const execute = wrapFromErrorHandler(({ mode, filter = 'long' }: Args) => {
     $display.initial();
 
     const getTargetVideoID = (rootID: string, data: string[]) => {
         const target = data[mode === 'next' ? 0 : data.length - 1];
 
         if (target !== rootID) return target;
-
+        
         const message = mode === 'next'
             ? 'It\'s last video'
             : 'It\'s first video';
 
-        $display.error(message);
+        throw new Error(message);
     }
     
     const openVideo = (url: string, id: string) => {
@@ -35,12 +45,19 @@ export const execute = ({ mode, filter = 'long' }: Args) => {
     }
 
     const main = async () => {
-        const url = await getActiveTabUrl();
+        const url = new URLSearchParams(window.location.search).get('url') ?? await getActiveTabUrl();
 
-        if (!isYoutube(url) || !isVideo(url)) return;
+        if (!isYoutube(url) || !isVideo(url)) throw new Error('Is not youtube or video');
 
-        const videoID = getVideoID(url);
-        const channelID = await youtubeAPI.getChannelID(videoID);
+        let videoID: string;
+        let channelID: string;
+        
+        try {            
+            videoID = getVideoID(url)!;
+            channelID = await youtubeAPI.getChannelID(videoID);
+        } catch(e) {
+            throw new Error(e.toString())
+        }
 
         const res = (await youtubeAPI.getChronologicVideoRange(
             channelID,
@@ -49,10 +66,7 @@ export const execute = ({ mode, filter = 'long' }: Args) => {
             filtres.values[filter] ?? filtres.values.long
         )).map(v => v.id);
 
-        if (res.length === 0) {
-            $display.error('Not found');
-            return;
-        }
+        if (res.length === 0) throw new Error('Video not found');
 
         const id = getTargetVideoID(videoID, res);
         if(id == null) return;
@@ -61,7 +75,7 @@ export const execute = ({ mode, filter = 'long' }: Args) => {
     }
 
     return main();
-}
+})
 
 const repo: IFilterRepo = LocalStorageFilterRepo;
 
@@ -77,7 +91,7 @@ const subscribeTargetButtons = () => {
 }
 
 const subscribeFilterButton = () => {
-    $filterButton.listen(v => repo.setValue(v));
+    $filterButton.listen(v => repo.setValue(v!));
 
     const setNextFilter = async () => {
         const current = await repo.getValue();

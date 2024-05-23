@@ -216,4 +216,4 @@ export interface VideoResponse {
     }
 }
 
-export type VideoResponseSmall = { id: string, details: VideoResponse['contentDetails'] };
+export type VideoResponseSmall = { id: string, details: Exclude<VideoResponse['contentDetails'], undefined> };

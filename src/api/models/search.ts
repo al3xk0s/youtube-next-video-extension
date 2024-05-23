@@ -5,8 +5,8 @@ export type Resource = VideoResponse;
 export interface SearchResponse {
     kind: "youtube#searchListResponse",
     etag: string,
-    nextPageToken: string,
-    prevPageToken: string,
+    nextPageToken?: string,
+    prevPageToken?: string,
     regionCode: string,
     pageInfo: {
         totalResults: number,

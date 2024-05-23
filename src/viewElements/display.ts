@@ -1,5 +1,5 @@
 export const $display = (() => {
-    const el = document.querySelector('#text-display');
+    const el = document.querySelector('#text-display')!;
 
     const setText = (value: string) => el.textContent = value.trim();
     const setVariant = (variant: string) => {

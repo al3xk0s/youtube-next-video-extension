@@ -9,11 +9,11 @@ export type FilterString = 'long' | 'shorts' | 'all';
 
 export const filtres = {
     get stringValues() {
-        return Object.keys(filtres.values) as unknown as keyof typeof filtres['values']
+        return Object.keys(filtres.values) as unknown as (keyof typeof filtres['values'])[]
     },
 
     nextFilter(value: FilterString) {
-        return this.stringValues[(this.values.indexOf(value) + 1) % this.values.length]
+        return this.stringValues[(this.stringValues.indexOf(value) + 1) % this.stringValues.length]
     },
 
     values: {
