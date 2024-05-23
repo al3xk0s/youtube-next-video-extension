@@ -1,0 +1,75 @@
+html
+{
+    width: 300px;
+    height: 300px;
+}
+
+body {
+    border-radius: 12px;
+    font-size: large;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;    
+}
+
+.icon-button {
+    background-color: transparent;
+    border: none;
+}
+
+.btn {
+    opacity: 0.8;
+    transition: all 100ms linear;
+    cursor: pointer;
+}
+
+.btn:hover {
+    opacity: 1;
+}
+
+.buttons {
+    padding: 6px 0px;
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+}
+
+.buttons__button {
+    width: 60px;
+}
+
+.buttons__button-inactive {
+    opacity: 0.7;
+    filter: grayscale(0.9);
+}
+
+.buttons__divider {
+    width: 18px;
+}
+
+.type {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    margin-top: 12px;
+}
+
+.type__type {
+    margin-right: 6px;
+}
+
+.type__value {
+    opacity: 0.9;
+    font-weight: bold;
+}
+
+.display {
+    margin: auto;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.display-text-error {
+    color: rgb(197, 48, 48)
+}

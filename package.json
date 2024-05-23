@@ -1,0 +1,12 @@
+{
+    "name": "youtube-next-video-extension",
+    "version": "1.0.0",
+    "author": "Alexey <bebe558812@gmail.com>",
+    "devDependencies": {
+        "esbuild": "^0.21.3",
+        "typescript": "^5.4.5"
+    },
+    "scripts": {
+        "build": "node esbuild.mjs"
+    }
+}

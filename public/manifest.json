@@ -5,7 +5,7 @@
     "version": "1.0",
     "action": {
       "default_title": "Next chronological youtube video",
-      "default_popup": "video.html",
+      "default_popup": "popup.html",
       "default_icon": "icons/icon.png"
     },
     "permissions": ["scripting", "activeTab"]
