@@ -8,5 +8,8 @@
     },
     "scripts": {
         "build": "node esbuild.mjs"
+    },
+    "dependencies": {
+        "moment": "^2.30.1"
     }
 }

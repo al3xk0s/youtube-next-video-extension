@@ -1,5 +1,5 @@
-import { VideoResponse } from "./video";
+import { VideoSearchResponse } from "./video";
 
-export type SearchPart = Exclude<keyof VideoResponse, 'kind' | 'etag' | 'id'>;
+export type SearchPart = Exclude<keyof VideoSearchResponse, 'kind' | 'etag' | 'id'>;
 
 export const joinParams = (...parts: string[]) => parts.join(',');

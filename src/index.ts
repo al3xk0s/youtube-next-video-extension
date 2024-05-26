@@ -1,5 +1,6 @@
 import { youtubeAPI } from "./api/api";
 import { FilterString, filtres } from "./api/filters";
+import { VideoResponseSmall } from "./api/models/video";
 import { getActiveTabUrl } from "./lib/chromeAPI";
 import { getVideoID, isVideo, isYoutube } from "./lib/youtube";
 import { IFilterRepo, LocalStorageFilterRepo } from "./repo/filterRepo";
@@ -27,11 +28,9 @@ const wrapFromErrorHandler = <F extends (...args: Parameters<F>) => ReturnType<F
 export const execute = wrapFromErrorHandler(({ mode, filter = 'long' }: Args) => {
     $display.initial();
 
-    const getTargetVideoID = (rootID: string, data: string[]) => {
-        const target = data[mode === 'next' ? 0 : data.length - 1];
+    const validateResult = (res: VideoResponseSmall | undefined) => {
+        if(res != null) return;
 
-        if (target !== rootID) return target;
-        
         const message = mode === 'next'
             ? 'It\'s last video'
             : 'It\'s first video';
@@ -50,28 +49,26 @@ export const execute = wrapFromErrorHandler(({ mode, filter = 'long' }: Args) =>
         if (!isYoutube(url) || !isVideo(url)) throw new Error('Is not youtube or video');
 
         let videoID: string;
+        let video: VideoResponseSmall;
         let channelID: string;
         
         try {            
             videoID = getVideoID(url)!;
-            channelID = await youtubeAPI.getChannelID(videoID);
+            video = await youtubeAPI.getSmallVideoResponse(videoID);
+            channelID = video.snippet.channelId;        
         } catch(e) {
             throw new Error(e.toString())
         }
 
-        const res = (await youtubeAPI.getChronologicVideoRange(
+        const targetVideo = await youtubeAPI.getVideoChronologicOrder(
             channelID,
-            videoID,
-            1,
-            filtres.values[filter] ?? filtres.values.long
-        )).map(v => v.id);
+            video,            
+            filtres.values[filter] ?? filtres.values.long,
+            mode,
+        );        
 
-        if (res.length === 0) throw new Error('Video not found');
-
-        const id = getTargetVideoID(videoID, res);
-        if(id == null) return;
-
-        openVideo(url, id);
+        validateResult(targetVideo);
+        openVideo(url, targetVideo!.id);
     }
 
     return main();

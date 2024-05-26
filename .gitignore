@@ -130,3 +130,5 @@ dist
 .pnp.*
 
 src/api/api_key.ts
+public.crx
+public.pem

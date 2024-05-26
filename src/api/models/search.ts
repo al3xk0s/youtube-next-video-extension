@@ -1,6 +1,6 @@
-import { VideoResponse } from "./video";
+import { VideoResponse, VideoSearchResponse } from "./video";
 
-export type Resource = VideoResponse;
+export type Resource = VideoSearchResponse | VideoResponse;
 
 export interface SearchResponse {
     kind: "youtube#searchListResponse",

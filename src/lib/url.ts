@@ -5,7 +5,17 @@ export const createUrl = (base: string, { query }: { query?: ConstructorParamete
         ? base
         : base + '?' + new URLSearchParams(query).toString();
 
-export const createQuery = (record: Record<string, any>) => mapObject<any, string>(
-    filterObject(record, (k, v) => v != null),
-    (k, v) => ([k, v.toString()]),
-);
+export const createQuery = (record: Record<string, any>, { removeNulls = true, removeEmptyStrings = true } : { removeNulls?: boolean, removeEmptyStrings?: boolean } = {}) => {
+    const firstStepResults = removeNulls
+        ? filterObject(record, (k, v) => v != null)
+        : Object.fromEntries(Object.entries(record));
+
+    const stringResults = mapObject<any, string>(
+        firstStepResults,
+        (k, v) => ([k, v.toString()]),
+    );
+
+    return removeEmptyStrings
+        ? filterObject(stringResults, (k, v) => v !== '')
+        : stringResults;
+}

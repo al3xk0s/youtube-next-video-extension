@@ -1,4 +1,6 @@
-export interface VideoResponse {
+import { NotNull } from "../../lib/types";
+
+export interface VideoSearchResponse {
     kind: "youtube#video",
     etag: string,
     id: {
@@ -216,4 +218,8 @@ export interface VideoResponse {
     }
 }
 
-export type VideoResponseSmall = { id: string, details: Exclude<VideoResponse['contentDetails'], undefined> };
+export type VideoResponseSmall = { id: string, details: NotNull<VideoSearchResponse['contentDetails']>, snippet: NotNull<VideoSearchResponse['snippet']> };
+
+export type VideoResponse = VideoSearchResponse & {
+    id: string;
+}

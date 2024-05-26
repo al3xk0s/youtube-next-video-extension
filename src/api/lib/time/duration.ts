@@ -1,3 +1,5 @@
+import moment = require("moment");
+
 export interface DurationValues {
     days: number;
     hours: number;
@@ -77,23 +79,24 @@ export class Duration implements DurationValues {
     isMoreOrEqual(other: Duration) { return this.isMore(other) || this.isEqual(other) }
 
     static fromISO8601 = (source: string) => {
-        let [date, time] = source.split('T');
+        // let [date, time] = source.split('T');
 
-        date = date.replace('P', '');
+        // date = date.replace('P', '');
 
-        const years = parseISOValue('Y', date) ?? 0;
-        const months = parseISOValue('M', date) ?? 0;
-        const days = parseISOValue('D', date) ?? 0;
+        
 
-        const hours = parseISOValue('H', time) ?? 0;
-        const minutes = parseISOValue('M', time) ?? 0;
-        const seconds = parseISOValue('S', time) ?? 0;
+        // const years = parseISOValue('Y', date) ?? 0;
+        // const months = parseISOValue('M', date) ?? 0;
+        // const days = parseISOValue('D', date) ?? 0;
+
+        // const hours = parseISOValue('H', time) ?? 0;
+        // const minutes = parseISOValue('M', time) ?? 0;
+        // const seconds = parseISOValue('S', time) ?? 0;
+
+        const momentDuration = moment.duration(source);
 
         return new Duration({
-            days: years * 365 + months * 30 + days,
-            hours,
-            minutes,
-            seconds
+            seconds: momentDuration.asSeconds(),            
         });
     }
 }
