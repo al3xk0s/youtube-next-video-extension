@@ -3,6 +3,8 @@
     "target": "ES2020",
     "lib": [
       "ES2015",
+      "DOM.Iterable",
+      "DOM"
     ],
     "module": "commonjs",
     "moduleResolution": "node",
@@ -13,8 +15,7 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist",
     "declaration": true,
-    "strictNullChecks": true,
-    "isolatedModules": true,
+    "strictNullChecks": true,    
   },
   "include": [
     "src/**/*.ts"

@@ -1,5 +1,5 @@
 import { BaseYouAPI } from "./baseYoutubeAPI";
-import { VideoSmall } from "./models/video";
+import { VideoSmall } from "./models/videoSmall";
 
 export type SearcherWorkerProps = {
     maxResults?: number;

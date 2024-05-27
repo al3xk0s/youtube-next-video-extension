@@ -2,9 +2,9 @@ import { force } from "../lib/operators";
 import { createQuery, createUrl } from "../lib/url";
 import { API_KEY } from "./api_key";
 import { VideoFilter } from "./filters";
-import { SearchResponse } from "./models/search";
-import { SearchPart, joinParams } from "./models/searchParts";
-import { VideoSmall } from "./models/video";
+import { SearchResponse } from "./models/SearchVideoList";
+import { SearchPart, joinParams } from "./searchParts";
+import { VideoSmall } from "./models/videoSmall";
 
 export const YoutubeAPI = (() => {
 // TODO: проработать механизм запросов от даты и до даты, ограничить range единицей

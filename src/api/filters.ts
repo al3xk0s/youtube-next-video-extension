@@ -1,5 +1,5 @@
 import { Duration } from "./lib/time/duration";
-import { VideoResponseSmall } from "./models/video";
+import { VideoResponseSmall } from "./models/videoSmall";
 
 export type VideoFilter = (video: VideoResponseSmall) => boolean;
 

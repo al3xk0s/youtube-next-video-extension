@@ -1,6 +1,6 @@
 import { YoutubeAPI } from "./api/api";
 import { FilterString, filtres } from "./api/filters";
-import { VideoResponseSmall } from "./api/models/video";
+import { VideoResponseSmall } from "./api/models/videoSmall";
 import { getActiveTabUrl } from "./lib/chromeAPI";
 import { getVideoID, isVideo, isYoutube } from "./lib/youtube";
 import { IFilterRepo, LocalStorageFilterRepo } from "./repo/filterRepo";
