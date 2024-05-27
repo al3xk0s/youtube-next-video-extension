@@ -1,4 +1,4 @@
-import { youtubeAPI } from "./api/api";
+import { YoutubeAPI } from "./api/api";
 import { FilterString, filtres } from "./api/filters";
 import { VideoResponseSmall } from "./api/models/video";
 import { getActiveTabUrl } from "./lib/chromeAPI";
@@ -54,13 +54,13 @@ export const execute = wrapFromErrorHandler(({ mode, filter = 'long' }: Args) =>
         
         try {            
             videoID = getVideoID(url)!;
-            video = await youtubeAPI.getSmallVideoResponse(videoID);
+            video = await YoutubeAPI.getSmallVideoResponse(videoID);
             channelID = video.snippet.channelId;        
         } catch(e) {
             throw new Error(e.toString())
         }
 
-        const targetVideo = await youtubeAPI.getVideoChronologicOrder(
+        const targetVideo = await YoutubeAPI.getVideoChronologicOrder(
             channelID,
             video,            
             filtres.values[filter] ?? filtres.values.long,

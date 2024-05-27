@@ -1,4 +1,5 @@
 import { NotNull } from "../../lib/types";
+import { Duration } from "../lib/time/duration";
 
 export interface VideoSearchResponse {
     kind: "youtube#video",
@@ -218,7 +219,12 @@ export interface VideoSearchResponse {
     }
 }
 
-export type VideoResponseSmall = { id: string, details: NotNull<VideoSearchResponse['contentDetails']>, snippet: NotNull<VideoSearchResponse['snippet']> };
+export interface VideoSmall {
+    id: string;
+    channelID: string;
+    duration: string;
+    published: string;
+};
 
 export type VideoResponse = VideoSearchResponse & {
     id: string;
