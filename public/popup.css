@@ -50,7 +50,12 @@ body {
 }
 
 .buttons__divider {
-    width: 18px;
+    width: 12px;
+}
+
+#playlist-video {
+    width: 56px;
+    margin-top: 3px;
 }
 
 .type {

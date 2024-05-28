@@ -4,11 +4,11 @@ import { API_KEY } from "./api_key";
 import { joinParams } from "./lib/uriUtils";
 import { ChannelList, ChannelListParts } from "./models/ChannelList";
 import { PlaylistItemList, PlaylistItemListParts } from "./models/PlaylistItemList";
-import { SearchVideoList, SearchVideoListParts } from "./models/SearchVideoList";
+import { SearchVideoList } from "./models/SearchVideoList";
 import { VideoList, VideoListParts } from "./models/VideoList";
-import { VideoSmall } from "./models/videoSmall";
+import { VideoSmall } from "./models/VideoSmall";
 
-export const BaseYouAPI = (() => {
+export const YouTubeAPI = (() => {
     const validateRes = <T extends object>(res: T) => {
         if('error' in res && res.error != null) {
             const error = res.error as { message?: string, code?: string }
@@ -45,7 +45,7 @@ export const BaseYouAPI = (() => {
     const getSmallVideoList = (videosIDs: string[]) : Promise<VideoSmall[] | undefined> =>
         getVideoList(videosIDs, ['snippet', 'contentDetails'])
         .then(
-            res => res?.items?.map(v => ({
+            res => res.items?.map(v => ({
                     id: force(v.id) as string,
                     channelID: force(v.snippet?.channelId),
                     duration: force(v.contentDetails?.duration),
@@ -56,9 +56,12 @@ export const BaseYouAPI = (() => {
     const getVideo = (videoID: string, parts: VideoListParts[] = ['snippet']) =>  getVideoList([videoID], parts).then(v => v?.items == null ? undefined : v?.items![0]);
     const getSmallVideo = (videoID: string) => getSmallVideoList([videoID]).then(v => v == null ? undefined : v[0]);
 
-    type SearchVideosQuery = {
+    type SearchQuery = {
         maxResults?: number;
         pageToken?: string;
+    }
+
+    type SearchVideosQuery = SearchQuery & {
         order?: string;
         publishedAfter?: string;
         publishedBefore?: string;
@@ -86,11 +89,17 @@ export const BaseYouAPI = (() => {
         return fetchResponse<ChannelList>(url);
     }
 
-    const getPlaylistItemList = (playlistID: string, parts: PlaylistItemListParts[] = ['snippet']) => {
+    const getChannel = (channelID: string, parts: ChannelListParts[] = ['snippet']) => getChannelList(channelID, parts)
+        .then(res => res.items != null ? res.items[0] : undefined);
+
+    const getPlaylistItemList = (playlistID: string, parts: PlaylistItemListParts[] = ['snippet'], query: SearchQuery = {}) => {
         const url = createUrl('https://youtube.googleapis.com/youtube/v3/playlistItems', {
-            query: createYoutubeQuery(parts, {
-                playlistId: playlistID,
-            })
+            query: {
+                ...createQuery(query),
+                ...createYoutubeQuery(parts, {
+                    playlistId: playlistID,
+                }),
+            }
         });
 
         return fetchResponse<PlaylistItemList>(url);
@@ -103,6 +112,7 @@ export const BaseYouAPI = (() => {
         getSmallVideo,
         getSearchVideosList,
         getChannelList,
+        getChannel,
         getPlaylistItemList,
     }
 })()

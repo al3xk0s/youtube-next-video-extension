@@ -22,7 +22,7 @@ export const $display = (() => {
         setVariant('display-text-error');
     }
 
-    const initial = () => text('Previous or next video')
+    const initial = () => text('Previous, on playlist or next video')
 
     return {
         text,

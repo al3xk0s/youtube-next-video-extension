@@ -1,32 +1,27 @@
-import { BaseYouAPI } from "./baseYoutubeAPI";
-import { VideoSmall } from "./models/videoSmall";
+import { YouTubeAPI } from "./YoutubeAPI";
 
 export type SearcherWorkerProps = {
     maxResults?: number;
     pageToken?: string;
 }
 
-export type SearcherWorker<T> = {
+export type SearcherWorker<T, R> = {
     exec: (props: SearcherWorkerProps) => Promise<T>;
     tokenRetriever: (value: T) => string | undefined;
-    idsRetriever: (value: T) => string[];
+    resultsRetriever: (value: T) => R[];
 }
 
-export type CreateSearcherProps<T> = {
-    worker: SearcherWorker<T>;
+export type CreateSearcherProps<T, R> = {
+    worker: SearcherWorker<T, R>;
     maxResults?: number;
     initialPageToken?: string;
-    filter?: (v: VideoSmall) => boolean;
-    mapper?: (v: VideoSmall[]) => VideoSmall[];
 }
 
-export const createVideosSearcher = <T>({
+export const createVideosSearcher = <T, R>({
     worker,
     maxResults = 50,        
     initialPageToken,
-    filter = (v) => true,
-    mapper = (v) => v,
-}: CreateSearcherProps<T>) => {
+}: CreateSearcherProps<T, R>) => {
     let pageToken = initialPageToken;
     let isFirst = true;
 
@@ -39,10 +34,7 @@ export const createVideosSearcher = <T>({
 
         pageToken = worker.tokenRetriever(data);
 
-        const videoIds = worker.idsRetriever(data);
-        const videosWithDetails = await BaseYouAPI.getSmallVideoList(videoIds);
-
-        return mapper(videosWithDetails.filter(filter));
+        return worker.resultsRetriever(data);
     }
 
     return {

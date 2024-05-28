@@ -1,18 +1,14 @@
-import { YoutubeAPI } from "./api/api";
-import { FilterString, filtres } from "./api/filters";
-import { VideoResponseSmall } from "./api/models/videoSmall";
+import { DataProvider } from "./api/DataProvider";
 import { getActiveTabUrl } from "./lib/chromeAPI";
+import { createQuery, createUrl } from "./lib/url";
 import { getVideoID, isVideo, isYoutube } from "./lib/youtube";
-import { IFilterRepo, LocalStorageFilterRepo } from "./repo/filterRepo";
 import { $display } from "./viewElements/display";
-import { $filterButton } from "./viewElements/filterButton";
 import { $targetButtons } from "./viewElements/targetButtons";
 
 type Mode = 'next' | 'previous';
 
 type Args = {
     mode: Mode;
-    filter?: FilterString;
 }
 
 const wrapFromErrorHandler = <F extends (...args: Parameters<F>) => ReturnType<F>>(exec: F) => {
@@ -25,87 +21,104 @@ const wrapFromErrorHandler = <F extends (...args: Parameters<F>) => ReturnType<F
     }
 }
 
-export const execute = wrapFromErrorHandler(({ mode, filter = 'long' }: Args) => {
+const urlOpener = (() => {
+    const getBaseUrl = (url: string) => {
+        const tabUrl = new URL(url);
+        return tabUrl.origin + tabUrl.pathname;
+    }
+
+    const open = (url: string) => window.open(url, '_blank');
+
+    const openVideo = (url: string, id: string) =>
+        open(
+            createUrl(getBaseUrl(url), {
+                query: createQuery({ v: id }) 
+            })
+        );
+
+    const openVideoOnPlayList = (url: string, id: string, playlistID: string) =>
+        open(
+            createUrl(getBaseUrl(url), {
+                query: createQuery({ v: id, list: playlistID }),
+            })
+        );
+
+    return { openVideo, openVideoOnPlayList }
+})();
+
+const getUrlParams = async () => {
+    const url = new URLSearchParams(window.location.search).get('url') ?? await getActiveTabUrl();
+
+    if (!isYoutube(url) || !isVideo(url)) throw new Error('Is not youtube or video');
+
+    const videoID = getVideoID(url)!;
+
+    return { url, videoID }
+}
+
+type VideoPair = Awaited<ReturnType<typeof DataProvider.getNextAndPreviousVideo>>;
+
+export const getVideo = wrapFromErrorHandler(({ mode }: Args) => {
     $display.initial();
 
-    const validateResult = (res: VideoResponseSmall | undefined) => {
-        if(res != null) return;
-
-        const message = mode === 'next'
-            ? 'It\'s last video'
-            : 'It\'s first video';
-
-        throw new Error(message);
+    const getTarget = ({ nextVideo, previousVideo }: VideoPair) => {
+        if(mode === 'next') return nextVideo;
+        if(mode === 'previous') return previousVideo;
     }
-    
-    const openVideo = (url: string, id: string) => {
-        const tabUrl = new URL(url);
-        window.open(tabUrl.origin + tabUrl.pathname + `?v=${id}`, '_blank')
+
+    const getValidateErrorMessage = () => {
+        if(mode === 'next') return 'It is last video';
+        if(mode === 'previous') return 'It is first video';
+    }
+
+    const validateResult = (target: string | undefined) => {        
+        if(target != null) return;
+        throw new Error(getValidateErrorMessage());
     }
 
     const main = async () => {
-        const url = new URLSearchParams(window.location.search).get('url') ?? await getActiveTabUrl();
+        const { videoID, url } = await getUrlParams();
+        const { channelID, uploadsPlaylistID } = await DataProvider.getChannelInfoByVideo(videoID);
 
-        if (!isYoutube(url) || !isVideo(url)) throw new Error('Is not youtube or video');
-
-        let videoID: string;
-        let video: VideoResponseSmall;
-        let channelID: string;
-        
-        try {            
-            videoID = getVideoID(url)!;
-            video = await YoutubeAPI.getSmallVideoResponse(videoID);
-            channelID = video.snippet.channelId;        
-        } catch(e) {
-            throw new Error(e.toString())
-        }
-
-        const targetVideo = await YoutubeAPI.getVideoChronologicOrder(
-            channelID,
-            video,            
-            filtres.values[filter] ?? filtres.values.long,
-            mode,
-        );        
+        const targetVideo = getTarget(await DataProvider.getNextAndPreviousVideo(
+            videoID,
+            uploadsPlaylistID,
+        ));
 
         validateResult(targetVideo);
-        openVideo(url, targetVideo!.id);
+        urlOpener.openVideo(url, targetVideo!);
     }
 
     return main();
-})
+});
 
-const repo: IFilterRepo = LocalStorageFilterRepo;
+export const toPlaylist = wrapFromErrorHandler(async () => {
+    $display.initial();
+    const { videoID, url } = await getUrlParams();
+
+    const { channelID, uploadsPlaylistID } = await DataProvider.getChannelInfoByVideo(videoID);
+
+    urlOpener.openVideoOnPlayList(url, videoID, uploadsPlaylistID);
+});
 
 const subscribeTargetButtons = () => {
-    const onTargetButtonClick = async (mode: Mode) => {
+    const { nextButton, previousButton, toPlayListButton } = $targetButtons;
+
+    const onTargetButtonClick = async (exec: () => Promise<any>) => {
         $targetButtons.deactivate();
-        await execute({ mode, filter: await repo.getValue()});
+        await exec();
         $targetButtons.activate();
     }
 
-    $targetButtons.nextButton.addEventListener('click', () => onTargetButtonClick('next'));
-    $targetButtons.previousButton.addEventListener('click', () => onTargetButtonClick('previous'));
-}
-
-const subscribeFilterButton = () => {
-    $filterButton.listen(v => repo.setValue(v!));
-
-    const setNextFilter = async () => {
-        const current = await repo.getValue();
-        const next = filtres.nextFilter(current);
-
-        return $filterButton.setFilterValue(next);
-    }
-
-    $filterButton.button.addEventListener('click', setNextFilter);
+   nextButton.addEventListener('click', () => onTargetButtonClick(() => getVideo({mode: 'next'})));
+   previousButton.addEventListener('click', () => onTargetButtonClick(() => getVideo({mode: 'previous'})));
+   toPlayListButton.addEventListener('click', () => onTargetButtonClick(toPlaylist));
 }
 
 const init = async () => {
     subscribeTargetButtons();
-    subscribeFilterButton();
 
     $display.initial();
-    $filterButton.setFilterValue(await repo.getValue());
 }
 
 init();
