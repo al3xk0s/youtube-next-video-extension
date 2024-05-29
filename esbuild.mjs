@@ -5,5 +5,5 @@ esbuild.buildSync({
     minify: true,
     entryPoints: ['src/index.ts'],
     outfile: 'public/popup.js',
-    sourcemap: true,
+    sourcemap: false,
 });
