@@ -1,3 +1,5 @@
+import { NotNull } from "./types";
+
 export const countStarting = <T>(array: T[], isTarget: (value: T) => boolean) => {
     let isCounting = false;
 
@@ -19,6 +21,8 @@ export const filterObject = <V = any>(obj: { [k: string]: V }, predicate: (key: 
     Object.fromEntries(
         Object.entries(obj).filter(([k, v]) => predicate(k, v))
     );
+
+export const objectWithoutNull = <V = any>(obj: { [k: string]: V }) => filterObject(obj, (k, v) => v != null) as { [k: string]: NotNull<V> };
 
 export const mapObject = <V = any, M = any>(obj: { [k: string]: V }, mapper: (key: string | number | symbol, value: V) => [ string | number | symbol, M ]) =>
     Object.fromEntries(

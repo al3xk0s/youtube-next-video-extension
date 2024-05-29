@@ -1,4 +1,4 @@
-import { filterObject, mapObject } from "./collections";
+import { filterObject, mapObject, objectWithoutNull } from "./collections";
 
 export const createUrl = (base: string, { query }: { query?: ConstructorParameters<typeof URLSearchParams>[0] } = {}) =>
     query == null
@@ -7,7 +7,7 @@ export const createUrl = (base: string, { query }: { query?: ConstructorParamete
 
 export const createQuery = (record: Record<string, any>, { removeNulls = true, removeEmptyStrings = true } : { removeNulls?: boolean, removeEmptyStrings?: boolean } = {}) => {
     const firstStepResults = removeNulls
-        ? filterObject(record, (k, v) => v != null)
+        ? objectWithoutNull(record)
         : Object.fromEntries(Object.entries(record));
 
     const stringResults = mapObject<any, string>(
