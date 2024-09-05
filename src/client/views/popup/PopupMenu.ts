@@ -1,4 +1,5 @@
 import { createCustomElement } from "../../../utils/dom";
+import { AnyNull } from "../../../utils/types";
 import { createLockState } from "../../utils/lockState";
 import { PopupMenuID } from "./const";
 import { PopupMenuButton } from "./PopupMenuButton";
@@ -43,8 +44,11 @@ export const PopupMenu = ({
         buttonOnUnlock();
     }
 
-    menu.addEventListener('click', (ev) => {        
-        if((ev.target as HTMLElement).getAttribute('id') !== PopupMenuID.button) return;
+    const isMenuArea = (id: string | AnyNull) =>
+        id != null && [PopupMenuID.button, PopupMenuID.items, PopupMenuID.menu].includes(id);
+
+    menu.addEventListener('click', (ev) => {
+        if((ev.target as HTMLElement).getAttribute('id') === PopupMenuID.items) return;
         if(lockState.getValue()) return;
 
         if(isShowsItems()) return hideItems();
@@ -52,7 +56,7 @@ export const PopupMenu = ({
     });
 
     window.addEventListener('click', (ev) => {
-        if([PopupMenuID.button, PopupMenuID.items, PopupMenuID.menu].includes((ev.target as HTMLElement)?.getAttribute('id') || 'asfaf')) return;
+        if(isMenuArea((ev.target as HTMLElement).id)) return;
 
         if(isShowsItems()) return hideItems();
     })

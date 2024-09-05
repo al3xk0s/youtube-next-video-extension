@@ -1,5 +1,6 @@
 import { useExtensionHref } from "../../../../utils/chromeAPI";
 import { createCustomElement } from "../../../../utils/dom";
+import { iconStyles } from "../styles";
 
 type PopupMenuItemChildrenProps = {
     title: string;
@@ -23,13 +24,10 @@ export const PopupMenuItemChildren = ({ title, iconPath }: PopupMenuItemChildren
             },
             classList: 'ytp-menuitem-icon',
             style: {
-                width: '16px',
-                height: '16px',
+                ...iconStyles,
                 margin: '0px 12px 0px 0px',
                 padding: '0px',
-                filter: 'brightness(0) saturate(100%) invert(93%) sepia(0%) saturate(5712%) hue-rotate(269deg) brightness(104%) contrast(100%)',
-                opacity: '0.65',
-            }
+            },
         }),
         createCustomElement({
             tag: 'div',
