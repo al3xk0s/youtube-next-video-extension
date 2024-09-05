@@ -21,20 +21,6 @@ export const PopupMenuItem = ({ children, lockState, onClick }: PopupMenuItemPro
 
     if(onClick == null) return el;
 
-    lockState.listen((value) => {
-        if(value) return setStyles(el, {
-            cursor: 'not-allowed',
-            opacity: '0.7',
-            filter: 'grayscale(0.9)',
-        });
-
-        return setStyles(el, {
-            cursor: 'pointer',
-            opacity: '1',
-            filter: 'inherit',
-        })
-    });
-
     addMouseClickListener(el, async (ev, isMiddleMouseClick) => {
         if(lockState.getValue()) return;
 

@@ -33,7 +33,12 @@ const createItemsList = (lockState: LockState) : DomChildren => {
     return result;
 }
 
-export const PopupMenuItems = ({initialShows = false}: { initialShows?: boolean} = {}) => {
+type PopupMenuItemsProps = {
+    initialShows?: boolean;
+    lockState: LockState;
+}
+
+export const PopupMenuItems = ({initialShows = false, lockState } : PopupMenuItemsProps) => {
     const SHOW_DISPLAY = 'flex';
     const HIDE_DISPLAY = 'none';
 
@@ -42,10 +47,6 @@ export const PopupMenuItems = ({initialShows = false}: { initialShows?: boolean}
 
     const showItems = () => setStyles(findItems(), { display: SHOW_DISPLAY });
     const hideItems = () => setStyles(findItems(), { display: HIDE_DISPLAY });
-
-    // TODO: implements lock / unlock items
-    const lockItemButtons = () => {}
-    const unlockItemButtons = () => {};
 
     const element = createCustomElement({
         id: PopupMenuID.items,
@@ -56,7 +57,7 @@ export const PopupMenuItems = ({initialShows = false}: { initialShows?: boolean}
             padding: '12px 0px',
             minWidth: '35%',
         },
-        children: createItemsList(),
+        children: createItemsList(lockState),
     });
 
     return {
@@ -65,7 +66,5 @@ export const PopupMenuItems = ({initialShows = false}: { initialShows?: boolean}
         isShowsItems,
         showItems,
         hideItems,
-        lockItemButtons,
-        unlockItemButtons,
     };
 };
