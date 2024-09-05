@@ -17,7 +17,7 @@ export const PopupMenuItem = ({ children, lockState, onClick, onError }: PopupMe
         classList: 'ytp-menuitem',
         children,
         style: {
-            padding: '0px 16px',
+            paddingRight: '1.1em',
         }
     });
 

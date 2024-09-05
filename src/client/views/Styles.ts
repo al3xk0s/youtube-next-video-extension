@@ -48,8 +48,9 @@ export const Styles = () => createCustomElement({
 }
 
 #${PopupMenuID.menu}, #${SNACKBAR_ID} {
-    font-size: 14px;
+    font-size: 100%;
     font-family: "YouTube Noto", Roboto, Arial, Helvetica, sans-serif;
+    font-weight: 500;
 }
 
 @-webkit-keyframes fadein {

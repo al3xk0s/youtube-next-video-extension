@@ -37,7 +37,7 @@ export const PopupMenuItems = ({initialShows = false, lockState, onError } : Pop
         style: {
             display: initialShows ? SHOW_DISPLAY : HIDE_DISPLAY,
             flexDirection: 'column',
-            padding: '12px 0px',
+            padding: '0.6em 0px',
             minWidth: '35%',
         },
         children: createItemsList(lockState, onError),

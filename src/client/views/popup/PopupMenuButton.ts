@@ -25,10 +25,10 @@ export const PopupMenuButton = () => {
                 tag: "img",
                 style: {
                     ...iconStyles,                
-                    height: '26px',
-                    width: '26px',
-                    opacity: '0.9',
-                    pointerEvents: 'none',                
+                    height: '52%',
+                    width: '52%',
+                    opacity: '0.89',
+                    pointerEvents: 'none',
                 },
                 attributes: {
                     src: useExtensionHref('icons/you.svg'),
@@ -36,7 +36,7 @@ export const PopupMenuButton = () => {
             }),
             createCustomElement({
                 style: {
-                    width: '10px',
+                    width: '21%',
                 }
             })
         ]

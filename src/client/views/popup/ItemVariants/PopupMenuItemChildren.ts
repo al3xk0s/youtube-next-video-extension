@@ -25,8 +25,9 @@ export const PopupMenuItemChildren = ({ title, iconPath }: PopupMenuItemChildren
             classList: 'ytp-menuitem-icon',
             style: {
                 ...iconStyles,
-                margin: '0px 12px 0px 0px',
-                padding: '0px',
+                padding: '1.1em',
+                height: '1.5em',
+                width: '1.5em',
             },
         }),
         createCustomElement({
@@ -34,7 +35,7 @@ export const PopupMenuItemChildren = ({ title, iconPath }: PopupMenuItemChildren
             children: title,
             style: {                
                 padding: '0px',
-                lineHeight: '14px',
+                lineHeight: '1em',
             }
         })
     ]

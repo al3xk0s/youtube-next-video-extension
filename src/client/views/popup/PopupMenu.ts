@@ -23,8 +23,6 @@ export const PopupMenu = ({
 
     const { PopupButton, onLock: buttonOnLock, onUnlock: buttonOnUnlock } = PopupMenuButton();
     
-    // TODO: проще не давать открыть меню :)
-
     const menu = createCustomElement({
         tag: 'div',
         classList: 'ytp-button',
