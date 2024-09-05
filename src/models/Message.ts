@@ -35,7 +35,7 @@ export class MessageMatcher {
         this._map = new Map<MessageName, (args: object) => Promise<void>>();
     }
 
-    readonly addCase = <T extends MessageName>(messageName: T, listener: (args: ArgsOfMessage<T>) => Promise<void>) => {
+    readonly addCase = <T extends MessageName, R>(messageName: T, listener: (args: ArgsOfMessage<T>) => Promise<R>) => {
         this._map.set(messageName, listener);
         return this;
     }
@@ -55,7 +55,7 @@ export class MessageMatcher {
         return await executor(message.args);
     }
 
-    private _map: Map<MessageName, (args: object) => Promise<void>>;
+    private _map: Map<MessageName, (args: object) => Promise<any>>;
 }
 
 export type BackendExtensionResponse<T> = {

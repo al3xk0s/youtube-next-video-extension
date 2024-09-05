@@ -1,6 +1,10 @@
+type Tab = {
+    url: string
+}
+
 interface ChromeExtensions {
     tabs: {
-        query: (params: {active: boolean, lastFocusedWindow: boolean}) => Promise<{ url: string }[]>,
+        query: (params: {active: boolean, lastFocusedWindow: boolean}) => Promise<Tab[]>,
         create: Function;
     },
     webNavigation: {
@@ -11,7 +15,9 @@ interface ChromeExtensions {
     runtime: {
         sendMessage: Function;
         onMessage: {
-            addListener: Function;
+            addListener: (
+                handler: (request: any, sender: { tab: Tab }, sendResponse: Function) => Promise<any> | boolean
+            ) => void;
         }
     },
     storage: {
