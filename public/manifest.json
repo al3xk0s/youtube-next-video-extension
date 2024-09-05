@@ -8,5 +8,21 @@
       "default_popup": "popup.html",
       "default_icon": "icons/icon.png"
     },
-    "permissions": ["scripting", "activeTab"]
+    "background": {
+      "service_worker": "sw.js"
+    },
+    "host_permissions": ["https://www.youtube.com/watch/*"],
+    "web_accessible_resources": [
+      {
+        "resources": [
+          "icons/*.png",
+          "icons/*.svg"
+        ],
+        "matches": [
+          "https://www.youtube.com/*"
+        ]
+      }
+    ],
+    "permissions": ["scripting", "webNavigation", "storage"]
+    
 }

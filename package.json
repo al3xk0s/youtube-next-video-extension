@@ -3,13 +3,19 @@
     "version": "1.0.0",
     "author": "Alexey <bebe558812@gmail.com>",
     "devDependencies": {
+        "@eslint/js": "^9.9.1",
         "esbuild": "^0.21.3",
-        "typescript": "^5.4.5"
+        "eslint": "^9.9.1",
+        "eslint-plugin-react": "^7.35.2",
+        "globals": "^15.9.0",
+        "typescript": "^5.4.5",
+        "typescript-eslint": "^8.4.0"
     },
     "scripts": {
         "build": "node esbuild.mjs"
     },
     "dependencies": {
+        "clsx": "^2.1.1",
         "moment": "^2.30.1"
     }
 }
