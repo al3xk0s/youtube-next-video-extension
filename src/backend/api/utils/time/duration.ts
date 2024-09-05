@@ -8,20 +8,6 @@ export interface DurationValues {
     milliseconds: number;
 }
 
-const parseISOValue = (key: string, source: string) => {
-    const parts = source.split(key);
-    if(parts.length === 1) return;
-
-    try {
-        const value = Number.parseInt(parts[0]);
-        if(Number.isNaN(value)) return;
-    
-        return value;
-    } catch(e) {
-        return;
-    }
-}
-
 export class Duration implements DurationValues {
     constructor({
         days = 0,
@@ -79,20 +65,6 @@ export class Duration implements DurationValues {
     isMoreOrEqual(other: Duration) { return this.isMore(other) || this.isEqual(other) }
 
     static fromISO8601 = (source: string) => {
-        // let [date, time] = source.split('T');
-
-        // date = date.replace('P', '');
-
-        
-
-        // const years = parseISOValue('Y', date) ?? 0;
-        // const months = parseISOValue('M', date) ?? 0;
-        // const days = parseISOValue('D', date) ?? 0;
-
-        // const hours = parseISOValue('H', time) ?? 0;
-        // const minutes = parseISOValue('M', time) ?? 0;
-        // const seconds = parseISOValue('S', time) ?? 0;
-
         const momentDuration = moment.duration(source);
 
         return new Duration({

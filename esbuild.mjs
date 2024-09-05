@@ -8,6 +8,5 @@ const build = (entrypoint, target) => esbuild.buildSync({
     sourcemap: false,
 });
 
-build('src/backend/popup.ts', 'public/popup.js');
 build('src/backend/serviceWorker.ts', 'public/sw.js');
 build('src/client/index.ts','public/client.js');

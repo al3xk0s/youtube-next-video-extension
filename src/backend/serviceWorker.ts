@@ -1,4 +1,4 @@
-import { AdjacentVideoType, BackendExtensionResponse, BackendExtensionUrlResponse, MessageMatcher, MessageName } from "../models/Message";
+import { AdjacentVideoType, BackendExtensionResponse, MessageMatcher, MessageName } from "../models/Message";
 import { DataProvider } from "./api/DataProvider";
 
 chrome.webNavigation.onDOMContentLoaded.addListener(async ({ tabId, url }: { tabId: string, url: string }) => {
@@ -42,7 +42,7 @@ const onAdjacentVideo = wrapHandler(async (videoID: string, type: AdjacentVideoT
     }
 
     const main = async () => {
-        const { channelID, uploadsPlaylistID } = await DataProvider.getChannelInfoByVideo(videoID);
+        const { uploadsPlaylistID } = await DataProvider.getChannelInfoByVideo(videoID);
 
         const targetVideo = getTarget(await DataProvider.getNextAndPreviousVideo(
             videoID,
@@ -57,7 +57,7 @@ const onAdjacentVideo = wrapHandler(async (videoID: string, type: AdjacentVideoT
 })
 
 const onOpenVideoOnPlayList = wrapHandler(async (videoID: string) => {
-    const { channelID, uploadsPlaylistID } = await DataProvider.getChannelInfoByVideo(videoID);
+    const { uploadsPlaylistID } = await DataProvider.getChannelInfoByVideo(videoID);
 
     return { url: uploadsPlaylistID }
 })
@@ -76,7 +76,7 @@ const UnknownResponse : BackendExtensionResponse<any> = { isError: true, userMes
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        new Promise<any>(async (resolve, rej) => {
+        new Promise<any>(async (resolve) => {
             const res = await handler.execute(request);
 
             resolve(sendResponse(res == null ? UnknownResponse : res));

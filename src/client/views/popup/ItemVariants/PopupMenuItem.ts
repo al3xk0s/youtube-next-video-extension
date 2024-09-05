@@ -1,4 +1,4 @@
-import { BackendExtensionResponse, BackendExtensionUrlResponse } from "../../../../models/Message";
+import { BackendExtensionResponse } from "../../../../models/Message";
 import { addMouseClickListener, createCustomElement, PropsWithChildren } from "../../../../utils/dom";
 import { LockState } from "../../../utils/lockState";
 

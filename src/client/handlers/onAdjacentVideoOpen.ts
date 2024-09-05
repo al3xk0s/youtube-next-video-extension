@@ -1,6 +1,4 @@
 import { AdjacentVideoType, BackendExtensionUrlResponse, Message, MessageName } from "../../models/Message";
-import { delayed } from "../../utils/async";
-import { LocationUrl } from "../../utils/location";
 import { getVideoWatchUrl } from "../../utils/youtube";
 import { onBackendUrlOpen } from "./onBackendUrlOpen";
 

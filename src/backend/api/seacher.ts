@@ -1,5 +1,3 @@
-import { YouTubeAPI } from "./YoutubeAPI";
-
 export type SearcherWorkerProps = {
     maxResults?: number;
     pageToken?: string;

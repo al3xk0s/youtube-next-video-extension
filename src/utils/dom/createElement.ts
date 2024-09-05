@@ -1,8 +1,8 @@
-import clsx = require("clsx");
 import { filterObject } from "../collections";
 import { setStyles } from "./styles";
 import { equalsAnyOf } from "../operators";
 import { DomElementCreateProps } from "./types";
+import { clsx } from "clsx";
 
 export const createCustomElement = ({ tag, id, children, classList, style, attributes }: DomElementCreateProps = {}) => {
     const root = document.createElement(tag ?? 'div');
@@ -10,7 +10,7 @@ export const createCustomElement = ({ tag, id, children, classList, style, attri
     if(attributes) {
         Object
             .entries(
-                filterObject(Object.entries(attributes), (k, v) => !equalsAnyOf(k, ['id', 'class', 'style']))
+                filterObject(Object.entries(attributes), (k) => !equalsAnyOf(k, ['id', 'class', 'style']))
             ).forEach(([k, v]) => root.setAttribute(k, v));
     }
 

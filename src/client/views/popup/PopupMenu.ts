@@ -1,4 +1,4 @@
-import { createCustomElement, setStyles } from "../../../utils/dom";
+import { createCustomElement } from "../../../utils/dom";
 import { createLockState } from "../../utils/lockState";
 import { PopupMenuID } from "./const";
 import { PopupMenuButton } from "./PopupMenuButton";

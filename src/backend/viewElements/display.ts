@@ -28,7 +28,7 @@ export const $display = (() => {
     const setVariant = (variant: string) => {
         el.classList.remove(
             ...Array.from(el.classList.entries())
-                .map(([k, v]) => v)
+                .map(([_, v]) => v)
                 .filter(v => v.includes('display-text')
             )
         );
