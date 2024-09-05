@@ -1,4 +1,5 @@
 import { AdjacentVideoType, BackendExtensionUrlResponse, Message, MessageName } from "../../models/Message";
+import { sendClientMessage } from "../../utils/chromeAPI";
 import { getVideoWatchUrl } from "../../utils/youtube";
 import { onBackendUrlOpen } from "./onBackendUrlOpen";
 
@@ -7,7 +8,7 @@ export const onAdjacentVideoOpen = async (type: AdjacentVideoType, isMiddleMouse
     (video) => {
         const message = Message[MessageName.adjacentVideo](video, type);
 
-        return chrome.runtime.sendMessage(message) as Promise<BackendExtensionUrlResponse>;
+        return sendClientMessage(message) as Promise<BackendExtensionUrlResponse>;
     },
     getVideoWatchUrl,
 );

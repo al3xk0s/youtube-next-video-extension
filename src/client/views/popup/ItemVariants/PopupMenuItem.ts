@@ -4,7 +4,7 @@ import { LockState } from "../../../utils/lockState";
 
 export type PopupMenuStateItemProps = {
     lockState: LockState;
-    onError: (userMessage: string) => void;
+    onError: (userMessage: string) => void;    
 }
 
 export type PopupMenuItemProps = PropsWithChildren & PopupMenuStateItemProps & {

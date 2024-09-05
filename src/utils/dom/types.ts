@@ -1,5 +1,5 @@
 import { ClassValue } from "clsx";
-import { OmitMapped } from "../types";
+import { AnyNull, OmitMapped } from "../types";
 
 export type MutableStyles = Omit<
     CSSStyleDeclaration,
@@ -12,7 +12,7 @@ export type MutableStyles = Omit<
     'parentRule'
 >;
 
-export type DomChildren = string | DomElementCreateProps | HTMLElement | (DomElementCreateProps | HTMLElement)[];
+export type DomChildren = string | DomElementCreateProps | HTMLElement | AnyNull | (string | DomElementCreateProps | HTMLElement | AnyNull)[];
 
 export type PropsWithChildren = {
     children?: DomChildren;

@@ -1,16 +1,38 @@
 import { filterObject } from "../collections";
 import { setStyles } from "./styles";
 import { equalsAnyOf } from "../operators";
-import { DomElementCreateProps } from "./types";
+import { DomChildren, DomElementCreateProps } from "./types";
 import { clsx } from "clsx";
 
-export const createCustomElement = ({ tag, id, children, classList, style, attributes }: DomElementCreateProps = {}) => {
-    const root = document.createElement(tag ?? 'div');
+const placeRootChildren = (root: HTMLElement, children: DomChildren) => {
+    if(typeof children === 'string') {
+        root.appendChild(document.createTextNode(children));
+        return root;
+    }
 
+    if(typeof children === 'object') {
+        const arr = !Array.isArray(children) ? [children] : children;
+
+        arr.forEach(e => {
+            if(e == null) return;
+
+            if(typeof e === 'string') return root.appendChild(document.createTextNode(e));
+            const element = 'tagName' in e ? e : createCustomElement(e);
+
+            root.insertAdjacentElement('beforeend', element);
+        })
+
+        return root;
+    }
+
+    return root;
+}
+
+export const placeCustomElement = (root: HTMLElement, { id, children, classList, style, attributes }: Omit<DomElementCreateProps, 'tag'> = {}) => {
     if(attributes) {
         Object
             .entries(
-                filterObject(Object.entries(attributes), (k) => !equalsAnyOf(k, ['id', 'class', 'style']))
+                filterObject(attributes, (k) => !equalsAnyOf(k, ['id', 'class', 'style']))
             ).forEach(([k, v]) => root.setAttribute(k, v));
     }
 
@@ -20,17 +42,11 @@ export const createCustomElement = ({ tag, id, children, classList, style, attri
 
     if(!children) return root;
 
-    if(typeof children === 'string') {
-        root.textContent = children;
-        return root;
-    }
+    return placeRootChildren(root, children);
+}
 
-    if(typeof children === 'object') {
-        const arr = !Array.isArray(children) ? [children] : children;
+export const createCustomElement = ({ tag, ...props }: DomElementCreateProps = {}) => {
+    const root = document.createElement(tag ?? 'div');
 
-        arr.forEach(e => root.insertAdjacentElement('beforeend', 'tagName' in e ? e : createCustomElement(e)))
-        return root;
-    }
-
-    return root;
+    return placeCustomElement(root, props);
 }

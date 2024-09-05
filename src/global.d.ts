@@ -18,7 +18,8 @@ interface ChromeExtensions {
             addListener: (
                 handler: (request: any, sender: { tab: Tab }, sendResponse: Function) => Promise<any> | boolean
             ) => void;
-        }
+        },
+        getURL: (path: string) => string
     },
     storage: {
         local: {
