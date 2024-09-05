@@ -26,3 +26,4 @@ export const createState = <T>(initial: T, initialListener?: StateListener<T>) =
         dispose,
     }
 }
+

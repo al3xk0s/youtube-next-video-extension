@@ -1,7 +1,7 @@
 import { DataProvider } from "./api/DataProvider";
-import { getActiveTabUrl } from "./lib/chromeAPI";
-import { createQuery, createUrl } from "./lib/url";
-import { getVideoID, isVideo, isYoutube } from "./lib/youtube";
+import { getActiveTabUrl } from "../utils/chromeAPI";
+import { createQuery, createUrl } from "../utils/url";
+import { getVideoID, isVideo, isYoutube } from "../utils/youtube";
 import { $display } from "./viewElements/display";
 import { $targetButtons } from "./viewElements/targetButtons";
 

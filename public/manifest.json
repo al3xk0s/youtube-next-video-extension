@@ -8,5 +8,9 @@
       "default_popup": "popup.html",
       "default_icon": "icons/icon.png"
     },
-    "permissions": ["scripting", "activeTab"]
+    "background": {
+      "service_worker": "sw.js"
+    },
+    "host_permissions": ["https://www.youtube.com/watch/*"],
+    "permissions": ["scripting", "webNavigation", "storage"]
 }

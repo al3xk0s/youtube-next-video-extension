@@ -1,6 +1,6 @@
-import { macrotaskWrap, macrotask } from "../lib/async";
-import { setStyles } from "../lib/style";
-import { ImmutableStyles } from "../lib/style";
+import { macrotaskWrap, macrotask } from "../../utils/async";
+import { setStyles } from "../../utils/dom";
+import { MutableStyles } from "../../utils/dom";
 
 export const $display = (() => {
     const el = document.querySelector('#text-display')!;
@@ -12,7 +12,7 @@ export const $display = (() => {
     const createStyles = (element: HTMLElement) => ({
         height: `${Math.round(element.offsetHeight)}px`,
         width: `${Math.round(element.offsetWidth)}px`,
-    } as ImmutableStyles);
+    } as MutableStyles);
 
     const setText = (value: string) => {
         el.textContent = value.trim();

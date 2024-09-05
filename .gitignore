@@ -129,6 +129,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-src/api/api_key.ts
+src/backend/api/api_key.ts
+public/*.js
+
 public.crx
 public.pem

@@ -1,9 +1,13 @@
 import * as esbuild from 'esbuild';
 
-esbuild.buildSync({
+const build = (entrypoint, target) => esbuild.buildSync({
     bundle: true,
     minify: true,
-    entryPoints: ['src/index.ts'],
-    outfile: 'public/popup.js',
+    entryPoints: [entrypoint],
+    outfile: target,
     sourcemap: false,
 });
+
+build('src/backend/popup.ts', 'public/popup.js');
+build('src/backend/serviceWorker.ts', 'public/sw.js');
+build('src/client/index.ts','public/client.js');

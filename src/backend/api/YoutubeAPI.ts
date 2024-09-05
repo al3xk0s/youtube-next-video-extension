@@ -1,7 +1,7 @@
-import { force } from "../lib/operators";
-import { createUrl, createQuery } from "../lib/url";
+import { force } from "../../utils/operators";
+import { createUrl, createQuery } from "../../utils/url";
 import { API_KEY } from "./api_key";
-import { joinParams } from "./lib/uriUtils";
+import { joinParams } from "./utils/uriUtils";
 import { ChannelList, ChannelListParts } from "./models/ChannelList";
 import { PlaylistItemList, PlaylistItemListParts } from "./models/PlaylistItemList";
 import { SearchVideoList } from "./models/SearchVideoList";
