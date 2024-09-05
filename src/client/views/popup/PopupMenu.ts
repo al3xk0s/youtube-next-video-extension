@@ -6,14 +6,19 @@ import { PopupMenuItems } from "./PopupMenuItems";
 
 type PopupMenuProps = {
     initialShows?: boolean;
+    showMessage: (message: string, delay: number) => void;
 }
 
 export const PopupMenu = ({
     initialShows = false,
-}: PopupMenuProps = {}) => {
+    showMessage,
+}: PopupMenuProps) => {
     const lockState = createLockState();
+    const snackbarDelay = 5000;
+    
+    const onError = (userMessage: string) => showMessage(userMessage, snackbarDelay);
 
-    const { Items, isShowsItems, showItems, hideItems } = PopupMenuItems({initialShows, lockState});
+    const { Items, isShowsItems, showItems, hideItems } = PopupMenuItems({initialShows, lockState, onError});
 
     const { PopupButton, onLock: buttonOnLock, onUnlock: buttonOnUnlock } = PopupMenuButton();
     
@@ -23,10 +28,6 @@ export const PopupMenu = ({
         tag: 'div',
         classList: 'ytp-button',
         id: PopupMenuID.menu,
-        style: {
-            fontSize: '14px',
-            fontFamily: '"YouTube Noto", Roboto, Arial, Helvetica, sans-serif',
-        },
         children: [
             PopupButton,
             Items,
@@ -50,8 +51,14 @@ export const PopupMenu = ({
         return showItems();
     });
 
+    window.addEventListener('click', (ev) => {
+        if([PopupMenuID.button, PopupMenuID.items, PopupMenuID.menu].includes((ev.target as HTMLElement)?.getAttribute('id') || 'asfaf')) return;
+
+        if(isShowsItems()) return hideItems();
+    })
+
     lockState.listen((isLocked) => {
-        if (!isLocked) return onLocked();
+        if (isLocked) return onLocked();
 
         return onUnlocked();
     });

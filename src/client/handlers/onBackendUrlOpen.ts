@@ -1,14 +1,20 @@
-import { AdjacentVideoType, BackendExtensionUrlResponse, Message, MessageName } from "../../models/Message";
+import { BackendExtensionUrlResponse } from "../../models/Message";
 import { openUrl } from "../../utils/location";
-import { force } from "../../utils/operators";
 import { getVideoID } from "../../utils/youtube";
 
-export const onBackendUrlOpen = async (isMiddleMouseClick: boolean, getMessage: (video: string) => Promise<BackendExtensionUrlResponse>) => {
+export const onBackendUrlOpen = async (
+    isMiddleMouseClick: boolean,
+    getMessage: (video: string) => Promise<BackendExtensionUrlResponse>,
+    formatUrl: (url: string) => string,
+) => {
     const video = getVideoID(location.href);
-    if(video == null) return;
+    if(video == null) return { isError: true, userMessage: 'Не открыто видео' };
 
     const res = await getMessage(video);
+    console.log(res);
+    if(res.isError) return res;
 
-    // TODO: handle user error
-    openUrl(force(res.data?.url), isMiddleMouseClick);
+    openUrl(formatUrl(res.data!.url), isMiddleMouseClick);
+
+    return res;
 }

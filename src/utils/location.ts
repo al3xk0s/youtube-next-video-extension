@@ -28,5 +28,5 @@ export class LocationUrl {
 }
 
 export const openUrl = (targetUrl: string, isMiddleMouseClick: boolean = true) => {
-    window.open(targetUrl, isMiddleMouseClick ? '_blank' : undefined);
+    window.open(targetUrl, isMiddleMouseClick ? '_blank' : '_self');
 };

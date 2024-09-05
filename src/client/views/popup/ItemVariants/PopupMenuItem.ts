@@ -1,15 +1,17 @@
-import { addMouseClickListener, createCustomElement, isMiddleMouseClick, PropsWithChildren, setStyles } from "../../../../utils/dom";
+import { BackendExtensionResponse, BackendExtensionUrlResponse } from "../../../../models/Message";
+import { addMouseClickListener, createCustomElement, PropsWithChildren } from "../../../../utils/dom";
 import { LockState } from "../../../utils/lockState";
 
 export type PopupMenuStateItemProps = {
     lockState: LockState;
+    onError: (userMessage: string) => void;
 }
 
 export type PopupMenuItemProps = PropsWithChildren & PopupMenuStateItemProps & {
-    onClick?: (isMiddleMouseClick: boolean) => Promise<void>;
+    onClick?: (isMiddleMouseClick: boolean) => Promise<BackendExtensionResponse<any>>;
 };
 
-export const PopupMenuItem = ({ children, lockState, onClick }: PopupMenuItemProps) => {
+export const PopupMenuItem = ({ children, lockState, onClick, onError }: PopupMenuItemProps) => {
     const el = createCustomElement({
         tag: 'div',
         classList: 'ytp-menuitem',
@@ -21,12 +23,19 @@ export const PopupMenuItem = ({ children, lockState, onClick }: PopupMenuItemPro
 
     if(onClick == null) return el;
 
-    addMouseClickListener(el, async (ev, isMiddleMouseClick) => {
+    addMouseClickListener(el, async (ev, isMiddleMouseClick) => {        
         if(lockState.getValue()) return;
 
-        lockState.lock();
-        await onClick!(isMiddleMouseClick);
-        lockState.unlock();
+        try {
+            lockState.lock();
+            const res = await onClick!(isMiddleMouseClick);
+
+            if(res.isError) onError(res.userMessage!);
+            return lockState.unlock();
+        } catch(e) {
+            onError(e);
+            lockState.unlock();
+        }
     });
 
     return el;

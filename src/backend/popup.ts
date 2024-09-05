@@ -61,35 +61,7 @@ type VideoPair = Awaited<ReturnType<typeof DataProvider.getNextAndPreviousVideo>
 export const getVideo = wrapFromErrorHandler(({ mode }: Args) => {
     $display.initial();
 
-    const getTarget = ({ nextVideo, previousVideo }: VideoPair) => {
-        if(mode === 'next') return nextVideo;
-        if(mode === 'previous') return previousVideo;
-    }
-
-    const getValidateErrorMessage = () => {
-        if(mode === 'next') return 'It is last video';
-        if(mode === 'previous') return 'It is first video';
-    }
-
-    const validateResult = (target: string | undefined) => {        
-        if(target != null) return;
-        throw new Error(getValidateErrorMessage());
-    }
-
-    const main = async () => {
-        const { videoID, url } = await getUrlParams();
-        const { channelID, uploadsPlaylistID } = await DataProvider.getChannelInfoByVideo(videoID);
-
-        const targetVideo = getTarget(await DataProvider.getNextAndPreviousVideo(
-            videoID,
-            uploadsPlaylistID,
-        ));
-
-        validateResult(targetVideo);
-        urlOpener.openVideo(url, targetVideo!);
-    }
-
-    return main();
+    
 });
 
 export const toPlaylist = wrapFromErrorHandler(async () => {
