@@ -7,27 +7,14 @@ export const Styles = () => createCustomElement({
     tag: 'style',
     children: `
 
-.${Classes.buttonImageActive} > img {    
+.${Classes.buttonImageInactive} > img {    
     transform-origin: center;
-    animation: choise 500ms ease-in-out forwards;
+    transform: rotate(0deg);
 }
 
-@keyframes choise {
-    0% {
-        transform: translate(0px, 0px);
-    }
-
-    55%, 70% {        
-        height: ${PopupMenuButtonStyles.activeSize};
-        width: ${PopupMenuButtonStyles.activeSize};
-        transform: translate(${PopupMenuButtonStyles.activeXInset}, ${PopupMenuButtonStyles.activeYInset});
-    }
-
-    100% {
-        height: ${PopupMenuButtonStyles.activeSize};
-        width: ${PopupMenuButtonStyles.activeSize};
-        transform: translate(${PopupMenuButtonStyles.activeXInset}, ${PopupMenuButtonStyles.finalActiveYInset});
-    }
+.${Classes.buttonImageActive} > img {    
+    transform-origin: center;
+    transform: rotate(180deg);
 }
 
 .${Classes.locked} > img {

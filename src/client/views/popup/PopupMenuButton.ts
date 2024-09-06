@@ -1,5 +1,5 @@
 import { useExtensionHref } from "../../../utils/chromeAPI";
-import { createCustomElement, cssRoundStr } from "../../../utils/dom";
+import { createCustomElement, cssRoundStr, replaceClass } from "../../../utils/dom";
 import { Classes } from "../const";
 import { PopupMenuID } from "./const";
 import { iconStyles, PopupMenuButtonStyles } from "./styles";
@@ -7,8 +7,8 @@ import { iconStyles, PopupMenuButtonStyles } from "./styles";
 export const PopupMenuButton = () => {
     const findButton = () => document.getElementById(PopupMenuID.button);    
 
-    const onActivate = () => findButton()?.classList.add(Classes.buttonImageActive);
-    const onDeactivate = () => findButton()?.classList.remove(Classes.buttonImageActive);
+    const onActivate = () => replaceClass(findButton(), Classes.buttonImageInactive, Classes.buttonImageActive);
+    const onDeactivate = () => replaceClass(findButton(), Classes.buttonImageActive, Classes.buttonImageInactive);
 
     const onLock = () => {
         onDeactivate();
@@ -36,7 +36,8 @@ export const PopupMenuButton = () => {
                     height: PopupMenuButtonStyles.size,
                     width: PopupMenuButtonStyles.size,
                     pointerEvents: 'none',
-                    transitionDuration: '250ms',
+                    transitionDuration: '225ms',
+                    transitionDelay: '100ms',
                 },
                 attributes: {
                     src: useExtensionHref('icons/you.svg'),

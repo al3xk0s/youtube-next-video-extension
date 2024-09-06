@@ -22,3 +22,10 @@ export const cssRoundStr = (value: string, { roundingInterval = '1px', strategy 
 
     return `round(${values.join(',')})`;
 };
+
+export const replaceClass = (element: HTMLElement | AnyNull, from: string, to: string) => {
+    if(element == null) return;
+
+    if(element.classList.contains(from)) return element.classList.replace(from, to);    
+    element.classList.add(to);
+}
