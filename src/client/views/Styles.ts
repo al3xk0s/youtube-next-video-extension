@@ -1,10 +1,34 @@
-import { createCustomElement } from "../../utils/dom";
+import { createCustomElement, cssRoundStr } from "../../utils/dom";
 import { Classes, SNACKBAR_ID } from "./const";
 import { PopupMenuID } from "./popup/const";
+import { PopupMenuButtonStyles } from "./popup/styles";
 
 export const Styles = () => createCustomElement({
     tag: 'style',
     children: `
+
+.${Classes.buttonImageActive} > img {    
+    transform-origin: center;
+    animation: choise 500ms ease-in-out forwards;
+}
+
+@keyframes choise {
+    0% {
+        transform: translate(0px, 0px);
+    }
+
+    55%, 70% {        
+        height: ${PopupMenuButtonStyles.activeSize};
+        width: ${PopupMenuButtonStyles.activeSize};
+        transform: translate(${PopupMenuButtonStyles.activeXInset}, ${PopupMenuButtonStyles.activeYInset});
+    }
+
+    100% {
+        height: ${PopupMenuButtonStyles.activeSize};
+        width: ${PopupMenuButtonStyles.activeSize};
+        transform: translate(${PopupMenuButtonStyles.activeXInset}, ${PopupMenuButtonStyles.finalActiveYInset});
+    }
+}
 
 .${Classes.locked} > img {
     animation: bounce 1500ms ease-in-out infinite, jump 1500ms ease-in-out infinite;
@@ -12,7 +36,7 @@ export const Styles = () => createCustomElement({
     cursor: 'wait';
 }
 @keyframes bounce {
-    0%, 5% {
+    0%, 5%, 100% {
         scale: 100% 100%;
     }
     25% {
@@ -24,29 +48,17 @@ export const Styles = () => createCustomElement({
     85%, 87% {
         scale: 122% 78%; /* Сжатие */
     }
-    100% {
-        scale: 100% 100%;
-    }
 }
 
 @keyframes jump {
-    0% {
+    0%, 75%, 92%, 100% {
         transform: translateY(0px);
     }
-    25% {
+    25%, 85% {
         transform: translateY(1px);
     }
     50% {
         transform: translateY(-8px);
-    }
-    75% {
-        transform: translateY(0px);
-    }
-    85% {
-        transform: translateY(1px);
-    }
-    92%, 100% {
-        transform: translateY(0px);
     }
 }
 

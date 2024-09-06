@@ -1,18 +1,25 @@
 import { useExtensionHref } from "../../../utils/chromeAPI";
-import { createCustomElement, setStyles } from "../../../utils/dom";
+import { createCustomElement, cssRoundStr } from "../../../utils/dom";
 import { Classes } from "../const";
 import { PopupMenuID } from "./const";
-import { iconStyles } from "./styles";
+import { iconStyles, PopupMenuButtonStyles } from "./styles";
 
 export const PopupMenuButton = () => {
-    const findButton = () => document.getElementById(PopupMenuID.button);
+    const findButton = () => document.getElementById(PopupMenuID.button);    
 
-    const onLock = () => findButton()?.classList.add(Classes.locked);
+    const onActivate = () => findButton()?.classList.add(Classes.buttonImageActive);
+    const onDeactivate = () => findButton()?.classList.remove(Classes.buttonImageActive);
+
+    const onLock = () => {
+        onDeactivate();
+        findButton()?.classList.add(Classes.locked);
+    }
+
     const onUnlock = () => findButton()?.classList.remove(Classes.locked);
 
     const element = createCustomElement({
         tag: 'div',
-        id: PopupMenuID.button,
+        id: PopupMenuID.button,        
         style: {
             display: 'flex',
             justifyContent: 'center',
@@ -25,10 +32,11 @@ export const PopupMenuButton = () => {
             createCustomElement({
                 tag: "img",
                 style: {
-                    ...iconStyles,                
-                    height: '52%',
-                    width: '52%',                    
-                    pointerEvents: 'none',                    
+                    ...iconStyles,
+                    height: PopupMenuButtonStyles.size,
+                    width: PopupMenuButtonStyles.size,
+                    pointerEvents: 'none',
+                    transitionDuration: '250ms',
                 },
                 attributes: {
                     src: useExtensionHref('icons/you.svg'),
@@ -46,5 +54,7 @@ export const PopupMenuButton = () => {
         PopupButton: element,
         onLock,
         onUnlock,
+        onActivate,
+        onDeactivate,
     };
 };

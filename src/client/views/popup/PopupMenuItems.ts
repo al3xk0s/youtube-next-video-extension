@@ -1,4 +1,5 @@
 import { createCustomElement, DomChildren, setStyles } from "../../../utils/dom";
+import { createState } from "../../../utils/state";
 import { isPlaylist } from "../../../utils/youtube";
 import { LockState } from "../../utils/lockState";
 import { PopupMenuID } from "./const";
@@ -16,20 +17,30 @@ const createItemsList = (lockState: LockState, onError: (userMessage: string) =>
 ];
 
 type PopupMenuItemsProps = {
-    initialShows?: boolean;
     lockState: LockState;
     onError: (userMessage: string) => void;
 }
 
-export const PopupMenuItems = ({initialShows = false, lockState, onError } : PopupMenuItemsProps) => {
+export const PopupMenuItems = ({lockState, onError } : PopupMenuItemsProps) => {
+    const initialShows = false;
+
     const SHOW_DISPLAY = 'flex';
     const HIDE_DISPLAY = 'none';
 
     const findItems = () => document.getElementById(PopupMenuID.items);
     const isShowsItems = () => findItems()?.style.display !== HIDE_DISPLAY;
 
-    const showItems = () => setStyles(findItems(), { display: SHOW_DISPLAY });
-    const hideItems = () => setStyles(findItems(), { display: HIDE_DISPLAY });
+    const activeMenuState = createState(initialShows);
+
+    const showItems = () => {
+        setStyles(findItems(), { display: SHOW_DISPLAY });
+        activeMenuState.setValue(true);
+    }
+
+    const hideItems = () => {
+        setStyles(findItems(), { display: HIDE_DISPLAY });
+        activeMenuState.setValue(false);
+    }
 
     const element = createCustomElement({
         id: PopupMenuID.items,
@@ -49,5 +60,6 @@ export const PopupMenuItems = ({initialShows = false, lockState, onError } : Pop
         isShowsItems,
         showItems,
         hideItems,
+        activeMenuState,
     };
 };

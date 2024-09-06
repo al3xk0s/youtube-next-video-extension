@@ -11,3 +11,14 @@ export const setStyles = (element: HTMLElement | AnyNull, style: Partial<Mutable
 
     return element;
 }
+
+type CssRoundStrOptions = {
+    roundingInterval?: string;
+    strategy?: 'up' | 'down' | 'to-zero' | 'nearest';
+}
+
+export const cssRoundStr = (value: string, { roundingInterval = '1px', strategy }: CssRoundStrOptions = {}) => {
+    const values = [strategy, value, roundingInterval].filter(v => v != null);
+
+    return `round(${values.join(',')})`;
+};

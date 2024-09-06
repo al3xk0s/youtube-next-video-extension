@@ -6,12 +6,10 @@ import { PopupMenuButton } from "./PopupMenuButton";
 import { PopupMenuItems } from "./PopupMenuItems";
 
 type PopupMenuProps = {
-    initialShows?: boolean;
     showMessage: (message: string, delay: number) => void;
 }
 
 export const PopupMenu = ({
-    initialShows = false,
     showMessage,
 }: PopupMenuProps) => {
     const lockState = createLockState();
@@ -19,9 +17,9 @@ export const PopupMenu = ({
     
     const onError = (userMessage: string) => showMessage(userMessage, snackbarDelay);
 
-    const { Items, isShowsItems, showItems, hideItems } = PopupMenuItems({initialShows, lockState, onError});
+    const { Items, isShowsItems, showItems, hideItems, activeMenuState } = PopupMenuItems({lockState, onError});
 
-    const { PopupButton, onLock: buttonOnLock, onUnlock: buttonOnUnlock } = PopupMenuButton();
+    const { PopupButton, onLock: buttonOnLock, onUnlock: buttonOnUnlock, onActivate, onDeactivate } = PopupMenuButton();
     
     const menu = createCustomElement({
         tag: 'div',
@@ -63,6 +61,11 @@ export const PopupMenu = ({
         if (isLocked) return onLocked();
 
         return onUnlocked();
+    });
+
+    activeMenuState.listen((isActive) => {
+        if(isActive) return onActivate();
+        return onDeactivate();
     });
 
     return menu;

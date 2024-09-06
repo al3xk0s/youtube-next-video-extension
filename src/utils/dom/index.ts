@@ -1,5 +1,5 @@
 export { createCustomElement, placeCustomElement } from './createElement';
-export { setStyles } from './styles';
+export { setStyles, cssRoundStr } from './styles';
 export { isMiddleMouseClick, addMouseClickListener } from './events';
 export {
     MutableStyles,
