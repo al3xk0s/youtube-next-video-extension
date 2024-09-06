@@ -13,6 +13,23 @@
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs1">
+    <inkscape:path-effect
+       effect="fillet_chamfer"
+       id="path-effect1"
+       is_visible="true"
+       lpeversion="1"
+       nodesatellites_param="F,0,0,1,0,4,0,1 @ F,0,0,1,0,4,0,1 @ F,0,0,1,0,4,0,1 @ F,0,0,1,0,4,0,1"
+       radius="4"
+       unit="px"
+       method="auto"
+       mode="F"
+       chamfer_steps="1"
+       flexible="false"
+       use_knot_distance="true"
+       apply_no_radius="true"
+       apply_with_radius="true"
+       only_selected="false"
+       hide_knots="false" />
     <clipPath
        clipPathUnits="userSpaceOnUse"
        id="clipPath13">
@@ -47,9 +64,9 @@
      inkscape:pageopacity="0"
      inkscape:pagecheckerboard="1"
      inkscape:deskcolor="#505050"
-     inkscape:zoom="5.701389"
-     inkscape:cx="65.422654"
-     inkscape:cy="43.58587"
+     inkscape:zoom="4"
+     inkscape:cx="21.875"
+     inkscape:cy="21.625"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="-8"
@@ -57,11 +74,19 @@
      inkscape:window-maximized="1"
      inkscape:current-layer="svg1" />
   <path
-     id="path1"
-     style=""
-     d="M 50 0.9921875 C 22.963418 0.9921875 0.9921875 22.963418 0.9921875 50 C 0.9921875 77.036582 22.963418 99.007812 50 99.007812 C 77.036582 99.007812 99.007812 77.036582 99.007812 50 C 99.007812 22.963418 77.036582 0.9921875 50 0.9921875 z M 48.828125 5.0078125 C 52.627281 4.9227794 56.441989 5.2912144 60.144531 6.1523438 C 71.49444 8.7002682 81.625071 15.963162 87.892578 25.734375 C 94.42 35.76398 96.56659 48.470856 93.855469 60.111328 C 91.379921 71.18732 84.41204 81.106666 75 87.40625 C 64.431824 94.598798 50.701323 96.825813 38.376953 93.482422 C 28.26996 90.807086 19.211016 84.453033 13.208984 75.898438 C 7.4599683 67.794742 4.5259407 57.745438 5.0546875 47.820312 C 5.5280543 36.224303 10.825458 24.961694 19.330078 17.087891 C 27.248065 9.6338817 37.95857 5.2551583 48.828125 5.0078125 z " />
+     d="m 51.896817,55.307137 8.946895,-5.095809 -8.946895,-5.095808 -0.6399,-0.363531 -9.586795,-5.459338 v 21.837356 l 9.586795,-5.45934 z"
+     style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.340244"
+     id="path12"
+     inkscape:transform-center-x="-3.9434408"
+     inkscape:transform-center-y="0.43593451" />
   <path
-     d="M 54.593605,60.136513 71.033058,50.773231 54.593605,41.40995 53.417824,40.741981 35.80259,30.710731 v 40.125 l 17.615234,-10.03125 z"
-     style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.62518"
-     id="path12" />
+     style="fill:none;stroke:#000000;stroke-width:4.80938;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+     id="rect1"
+     width="85.167038"
+     height="55.174305"
+     x="7.416481"
+     y="22.412848"
+     inkscape:path-effect="#path-effect1"
+     sodipodi:type="rect"
+     d="m 11.416481,22.412848 h 77.167038 a 4,4 45 0 1 4,4 v 47.174304 a 4,4 135 0 1 -4,4 H 11.416481 a 4,4 45 0 1 -4,-4 V 26.412848 a 4,4 135 0 1 4,-4 z" />
 </svg>

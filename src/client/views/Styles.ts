@@ -5,23 +5,48 @@ import { PopupMenuID } from "./popup/const";
 export const Styles = () => createCustomElement({
     tag: 'style',
     children: `
-    
-.${Classes.locked} {
-    animation:  bounce 2s ease-in-out alternate infinite;
+
+.${Classes.locked} > img {
+    animation: bounce 1500ms ease-in-out infinite, jump 1500ms ease-in-out infinite;
     transform-origin: center bottom;
     cursor: 'wait';
 }
-
 @keyframes bounce {
-    0%,
-    25% {
-        scale: 1 100%;
+    0%, 5% {
+        scale: 100% 100%;
     }
-
-    50%,
-    75%,
+    25% {
+        scale: 125% 75%; /* Сжатие */
+    }
+    50%, 60% {
+        scale: 75% 110%; /* Разжатие */
+    }
+    85%, 87% {
+        scale: 122% 78%; /* Сжатие */
+    }
     100% {
-        scale: 120% 75%;
+        scale: 100% 100%;
+    }
+}
+
+@keyframes jump {
+    0% {
+        transform: translateY(0px);
+    }
+    25% {
+        transform: translateY(1px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+    75% {
+        transform: translateY(0px);
+    }
+    85% {
+        transform: translateY(1px);
+    }
+    92%, 100% {
+        transform: translateY(0px);
     }
 }
 

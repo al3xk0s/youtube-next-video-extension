@@ -134,3 +134,5 @@ public/*.js
 
 public.crx
 public.pem
+
+public/lab.html
