@@ -26,8 +26,8 @@ export const PopupMenuItemChildren = ({ title, iconPath }: PopupMenuItemChildren
             style: {
                 ...iconStyles,
                 padding: '1.1em',
-                height: '1.5em',
-                width: '1.5em',
+                height: '2em',
+                width: '2em',
             },
         }),
         createCustomElement({

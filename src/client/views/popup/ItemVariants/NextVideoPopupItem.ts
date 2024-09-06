@@ -6,7 +6,7 @@ import { PopupMenuItemChildren } from "./PopupMenuItemChildren";
 export const NextVideoPopupItem = (props : PopupMenuStateItemProps) => PopupMenuItem({
     children: PopupMenuItemChildren({
         title: 'Следующее видео',
-        iconPath: 'icons/fast-forward-red-icon.svg',
+        iconPath: 'icons/next.svg',
     }),
     onClick: (isMiddleMouseClick) => onAdjacentVideoOpen(AdjacentVideoType.next, isMiddleMouseClick),
     ...props

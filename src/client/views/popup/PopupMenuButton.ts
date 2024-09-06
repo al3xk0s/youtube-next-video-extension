@@ -1,5 +1,5 @@
 import { useExtensionHref } from "../../../utils/chromeAPI";
-import { createCustomElement } from "../../../utils/dom";
+import { createCustomElement, setStyles } from "../../../utils/dom";
 import { Classes } from "../const";
 import { PopupMenuID } from "./const";
 import { iconStyles } from "./styles";
@@ -26,15 +26,14 @@ export const PopupMenuButton = () => {
                 style: {
                     ...iconStyles,                
                     height: '52%',
-                    width: '52%',
-                    opacity: '0.89',
+                    width: '52%',                    
                     pointerEvents: 'none',
                 },
                 attributes: {
                     src: useExtensionHref('icons/you.svg'),
                 }
             }),
-            createCustomElement({
+            createCustomElement({        
                 style: {
                     width: '21%',
                 }

@@ -7,23 +7,22 @@ export const Styles = () => createCustomElement({
     children: `
     
 .${Classes.locked} {
-    -webkit-animation: spin 2s ease-in infinite;
-    animation: spin 2s ease-in infinite;
+    animation:  bounce 2s ease-in-out alternate infinite;
+    transform-origin: center bottom;
     cursor: 'wait';
 }
 
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  50% { -webkit-transform: rotate(180deg); }
-  75% { -webkit-transform: rotate(180deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
+@keyframes bounce {
+    0%,
+    25% {
+        scale: 1 100%;
+    }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(180deg); }
-  75% { transform: rotate(180deg); }
-  100% { transform: rotate(360deg); }
+    50%,
+    75%,
+    100% {
+        scale: 120% 75%;
+    }
 }
 
 #${SNACKBAR_ID} {

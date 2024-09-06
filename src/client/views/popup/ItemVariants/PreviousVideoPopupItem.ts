@@ -6,7 +6,7 @@ import { PopupMenuItemChildren } from "./PopupMenuItemChildren";
 export const PreviousVideoPopupItem = (props : PopupMenuStateItemProps) => PopupMenuItem({
     children: PopupMenuItemChildren({
         title: 'Предыдущее видео',
-        iconPath: 'icons/backward-red-icon.svg',
+        iconPath: 'icons/prev.svg',
     }),
     onClick: (isMiddleMouseClick) => onAdjacentVideoOpen(AdjacentVideoType.previos, isMiddleMouseClick),
     ...props,
