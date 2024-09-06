@@ -19,6 +19,7 @@ export const PopupMenuButton = () => {
             alignItems: 'center',
             height: '100%',
             width: '100%',
+            userSelect: 'none',
         },
         children: [
             createCustomElement({
@@ -27,7 +28,7 @@ export const PopupMenuButton = () => {
                     ...iconStyles,                
                     height: '52%',
                     width: '52%',                    
-                    pointerEvents: 'none',
+                    pointerEvents: 'none',                    
                 },
                 attributes: {
                     src: useExtensionHref('icons/you.svg'),
