@@ -36,8 +36,8 @@ export const PopupMenuButton = () => {
                     height: PopupMenuButtonStyles.size,
                     width: PopupMenuButtonStyles.size,
                     pointerEvents: 'none',
-                    transitionDuration: '225ms',
-                    transitionDelay: '100ms',
+                    transitionDuration: '150ms',
+                    transitionDelay: '200ms',
                 },
                 attributes: {
                     src: useExtensionHref('icons/you.svg'),
