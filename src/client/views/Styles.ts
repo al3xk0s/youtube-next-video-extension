@@ -1,21 +1,37 @@
-import { createCustomElement, cssRoundStr } from "../../utils/dom";
+import { createCustomElement, getDublicatedCssAnimation } from "../../utils/dom";
 import { Classes, SNACKBAR_ID } from "./const";
 import { PopupMenuID } from "./popup/const";
-import { PopupMenuButtonStyles } from "./popup/styles";
 
 export const Styles = () => createCustomElement({
     tag: 'style',
     children: `
 
-.${Classes.buttonImageInactive} > img {    
-    transform-origin: center;
-    transform: rotate(0deg);
-}
-
 .${Classes.buttonImageActive} > img {    
-    transform-origin: center;
-    transform: rotate(180deg);
-}
+        transform-origin: center;
+        animation: spin 300ms ease-in-out 200ms forwards;
+    }
+
+.${Classes.buttonImageInactive} > img {            
+        transform-origin: center;
+        animation: spin-reverse 300ms ease-in-out 200ms reverse forwards;
+    }
+
+${getDublicatedCssAnimation('spin-reverse', 
+    `
+    @keyframes spin {            
+    0% {                
+        transform: rotate(0deg);
+    }
+    50% {
+        scale: 50% 50%;
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    }
+    `
+)}
 
 .${Classes.locked} > img {
     animation: bounce 1500ms ease-in-out infinite, jump 1500ms ease-in-out infinite;
