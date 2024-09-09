@@ -1,11 +1,11 @@
-import { cssRoundStr, MutableStyles } from "../../../utils/dom";
+import { MutableStyles } from "../../../utils/dom";
 
 export const PopupMenuButtonStyles = {
-    size: cssRoundStr('52%'),
-    activeSize: cssRoundStr('60%'),
-    activeXInset: cssRoundStr('-14%'),
-    activeYInset: cssRoundStr('-12%'),
-    finalActiveYInset: cssRoundStr('0%'),
+    size: '52%',
+    activeSize: '60%',
+    activeXInset: '-14%',
+    activeYInset: '-12%',
+    finalActiveYInset: '0%',
 }
 
 

@@ -1,7 +1,6 @@
-import { createCustomElement, cssRoundStr } from "../../utils/dom";
+import { createCustomElement } from "../../utils/dom";
 import { Classes, SNACKBAR_ID } from "./const";
 import { PopupMenuID } from "./popup/const";
-import { PopupMenuButtonStyles } from "./popup/styles";
 
 export const Styles = () => createCustomElement({
     tag: 'style',

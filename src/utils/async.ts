@@ -21,3 +21,32 @@ export const delayed : DelayedCallable = <T>(delayMs: number, exec?: () => T) =>
         res(null as T);
     }, delayMs);
 });
+
+type DebouncerProps = {
+    delayMs?: number;
+    executor?: () => void;
+};
+
+export const createDebouncer = ({ delayMs: defaultDelayMs, executor: defaultExecutor }: DebouncerProps = {}) => {
+    let pid: any;
+
+    const tryCancel = () => {
+        if(pid == null) return;
+
+        clearTimeout(pid);
+        pid = null;
+    }
+
+    const exec = ({ delayMs = defaultDelayMs, executor = defaultExecutor }: DebouncerProps = {}) => {        
+        if(delayMs == null || executor == null) throw new Error('Debounce error: delay or executor is null');
+
+        tryCancel();
+
+        pid = setTimeout(() => executor(), delayMs);
+    };
+
+    return {
+        exec,
+        tryCancel,
+    }
+};

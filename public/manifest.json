@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "Next chronological youtube video",
     "description": "Opens the next video in order on the YouTube channel",
-    "version": "2.0.6",
+    "version": "2.0.7",
     "action": {
       "default_title": "Next chronological youtube video",
       "default_popup": "popup.html",

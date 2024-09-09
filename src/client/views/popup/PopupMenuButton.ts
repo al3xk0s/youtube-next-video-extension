@@ -1,14 +1,28 @@
+import { createDebouncer } from "../../../utils/async";
 import { useExtensionHref } from "../../../utils/chromeAPI";
-import { createCustomElement, cssRoundStr, replaceClass } from "../../../utils/dom";
+import { createCustomElement, replaceClass } from "../../../utils/dom";
 import { Classes } from "../const";
 import { PopupMenuID } from "./const";
 import { iconStyles, PopupMenuButtonStyles } from "./styles";
 
 export const PopupMenuButton = () => {
-    const findButton = () => document.getElementById(PopupMenuID.button);    
+    const transitionDuration = 150;
+    const transitionDelay = 200;
 
-    const onActivate = () => replaceClass(findButton(), Classes.buttonImageInactive, Classes.buttonImageActive);
-    const onDeactivate = () => replaceClass(findButton(), Classes.buttonImageActive, Classes.buttonImageInactive);
+    const findButton = () => document.getElementById(PopupMenuID.button);
+    const setDeactivateClass = () => replaceClass(findButton(), Classes.buttonImageActive, Classes.buttonImageInactive);
+
+    const revertAnimation = createDebouncer({ delayMs: (transitionDuration + transitionDelay) * 4, executor: setDeactivateClass });
+
+    const onDeactivate = () => {
+        revertAnimation.tryCancel();
+        setDeactivateClass();
+    }
+
+    const onActivate = () => {
+        replaceClass(findButton(), Classes.buttonImageInactive, Classes.buttonImageActive);
+        revertAnimation.exec();
+    }
 
     const onLock = () => {
         onDeactivate();
@@ -36,8 +50,8 @@ export const PopupMenuButton = () => {
                     height: PopupMenuButtonStyles.size,
                     width: PopupMenuButtonStyles.size,
                     pointerEvents: 'none',
-                    transitionDuration: '150ms',
-                    transitionDelay: '200ms',
+                    transitionDuration: `${transitionDuration}ms`,
+                    transitionDelay: `${transitionDelay}ms`,
                 },
                 attributes: {
                     src: useExtensionHref('icons/you.svg'),
